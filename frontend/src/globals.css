@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  /* ── Backgrounds ─────────────────────────────────── */
+  --color-navy: #0B0F19;
+  /* deep page background          */
+  --color-card: #111827;
+  /* card surface                  */
+  --color-elevated: #1B2640;
+  /* input / elevated surface      */
+  --color-edge: #2D4272;
+  /* visibly distinct border color */
+
+  /* ── Accent Colors ───────────────────────────────── */
+  --color-primary: #00D1FF;
+  --color-secondary: #00FFA3;
+  --color-warning: #FFB020;
+  --color-danger: #FF4D4F;
+
+  /* ── Text Colors ─────────────────────────────────── */
+  --color-snow: #E6EDF3;
+  --color-subtle: #94A3B8;
+  --color-muted: #5B6B8A;
+
+  /* ── Font ────────────────────────────────────────── */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Base ──────────────────────────────────────────────────── */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #0B0F19;
+  color: #E6EDF3;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Custom Scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111827;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2D4272;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5B6B8A;
+}
+
+/* ── Global Form Control Base ────────────────────────────── */
+/*  Ensures all inputs/selects/textareas look consistent     */
+.input-base {
+  width: 100%;
+  background: #1B2640;
+  border: 1px solid #2D4272;
+  color: #E6EDF3;
+  font-size: 0.875rem;
+  border-radius: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  font-family: inherit;
+}
+
+.input-base::placeholder {
+  color: #5B6B8A;
+}
+
+.input-base:focus {
+  border-color: #00D1FF;
+  box-shadow: 0 0 0 3px rgba(0, 209, 255, 0.15);
+}
+
+.input-base option {
+  background: #111827;
+  color: #E6EDF3;
+}
+
+/* ── Toast Animation ─────────────────────────────────────── */
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast-enter {
+  animation: toastSlideIn 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+}
+
+/* ── Sidebar width transition ────────────────────────────── */
+.sidebar-transition {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── MapLibre GL overrides ───────────────────────────────── */
+.maplibregl-popup-content {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.maplibregl-popup-close-button {
+  display: none !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: #111827 !important;
+}
+
+.maplibregl-ctrl-group {
+  background: #111827 !important;
+  border: 1px solid #2D4272 !important;
+}
+
+.maplibregl-ctrl-group button {
+  background: transparent !important;
+  color: #E6EDF3 !important;
+}
+
+.maplibregl-ctrl-group button:hover {
+  background: #1B2640 !important;
+}
+
+/* ── Tree popup ──────────────────────────────────────────── */
+.tree-popup {
+  background: #111827;
+  border: 1px solid #2D4272;
+  border-radius: 12px;
+  padding: 12px 14px;
+  min-width: 200px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-sans);
+}
+
+.tree-popup__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #2D4272;
+}
+
+.tree-popup__id {
+  font-size: 13px;
+  font-weight: 600;
+  color: #00D1FF;
+}
+
+.tree-popup__row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+}
+
+.tree-popup__label {
+  font-size: 11px;
+  color: #5B6B8A;
+}
+
+.tree-popup__value {
+  font-size: 12px;
+  font-weight: 500;
+  color: #E6EDF3;
+}

@@ -1,0 +1,41 @@
+# IDE & OS Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Frontend (Vite + React)
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Backend (FastAPI + Python)
+backend/venv/
+backend/env/
+backend/.env
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+backend/.pytest_cache/
+backend/.coverage
+backend/htmlcov/
+backend/celerybeat-schedule
+backend/celerybeat.pid
+backend/data/
+
+# Local Volumes (Logs & Docker data)
+docker-volumes/
+pg_data/
+logs/
+*.log
+
+# System/Misc
+.gemini/
+.env
+.env.*
