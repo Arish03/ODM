@@ -7,39 +7,61 @@ import {
 import api from '../../api/client';
 
 const PALETTE = {
-  primary:   '#00D1FF',
-  secondary: '#00FFA3',
-  warning:   '#FFB020',
+  primary:   '#f97316',
+  secondary: '#22c55e',
+  warning:   '#eab308',
   danger:    '#FF4D4F',
-  muted:     '#64748B',
-  edge:      '#1E2A3F',
-  card:      '#121826',
+  muted:     '#6b7280',
+  edge:      'rgba(34,197,94,0.20)',
+  card:      'rgba(255,255,255,0.72)',
 };
 
 /* ── KPI card ────────────────────────────────────────────── */
-function KpiCard({ label, value, sub, icon: Icon, accent, iconColor }) {
+function KpiCard({ label, value, sub, icon: Icon, accentColor }) {
   return (
-    <div className="relative bg-card border border-edge rounded-2xl p-5 overflow-hidden hover:-translate-y-0.5 transition-transform">
-      <div className={`absolute top-0 left-0 right-0 h-0.5 ${accent}`} />
-      <div className={`absolute top-4 right-4 w-9 h-9 rounded-xl bg-elevated flex items-center justify-center ${iconColor}`}>
-        <Icon size={17} />
+    <div
+      className="relative overflow-hidden rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 group"
+      style={{
+        background: 'rgba(255,255,255,0.72)',
+        backdropFilter: 'blur(24px)',
+        border: '1px solid rgba(34,197,94,0.20)',
+        boxShadow: '0 4px 24px rgba(34,197,94,0.08)',
+      }}
+      onMouseEnter={e => e.currentTarget.style.boxShadow = `0 12px 36px ${accentColor}25`}
+      onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px rgba(34,197,94,0.08)'}
+    >
+      {/* Top accent */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
+           style={{ background: `linear-gradient(90deg, ${accentColor}, transparent)` }} />
+      <div className="relative flex justify-between items-start z-10">
+        <div>
+          <p className="text-muted text-xs font-bold uppercase tracking-widest mb-3">{label}</p>
+          <p className="text-snow text-3xl font-black leading-none mb-1">{value}</p>
+          <p className="text-muted text-xs">{sub}</p>
+        </div>
+        <div
+          className="w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+          style={{ background: `${accentColor}15`, border: `1px solid ${accentColor}25` }}
+        >
+          <Icon size={18} style={{ color: accentColor }} strokeWidth={2} />
+        </div>
       </div>
-      <p className="text-muted text-xs font-semibold uppercase tracking-wider mb-2">{label}</p>
-      <p className="text-snow text-3xl font-black leading-none mb-1">{value}</p>
-      <p className="text-muted text-xs">{sub}</p>
     </div>
   );
 }
 
 /* ── Health badge ────────────────────────────────────────── */
 function HealthBadge({ status }) {
-  const cfg = {
-    Healthy:  'bg-secondary/10 text-secondary border-secondary/20',
-    Moderate: 'bg-warning/10 text-warning border-warning/20',
-    Poor:     'bg-danger/10 text-danger border-danger/20',
+  const styles = {
+    Healthy:  { background: 'rgba(22,163,74,0.10)',  border: '1px solid rgba(22,163,74,0.25)',  color: '#15803d' },
+    Moderate: { background: 'rgba(234,179,8,0.10)',  border: '1px solid rgba(234,179,8,0.25)',  color: '#a16207' },
+    Poor:     { background: 'rgba(239,68,68,0.10)',  border: '1px solid rgba(239,68,68,0.25)',  color: '#dc2626' },
   };
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${cfg[status] || 'bg-elevated text-muted border-edge'}`}>
+    <span
+      className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold"
+      style={styles[status] || { background: 'rgba(107,114,128,0.10)', border: '1px solid rgba(107,114,128,0.20)', color: '#6b7280' }}
+    >
       {status || 'N/A'}
     </span>
   );
@@ -49,10 +71,18 @@ function HealthBadge({ status }) {
 const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-card border border-edge rounded-xl px-3.5 py-2.5 shadow-xl text-sm">
+    <div
+      className="rounded-xl px-3.5 py-2.5 text-sm"
+      style={{
+        background: 'rgba(255,255,255,0.92)',
+        backdropFilter: 'blur(16px)',
+        border: '1px solid rgba(34,197,94,0.22)',
+        boxShadow: '0 8px 24px rgba(34,197,94,0.12)',
+      }}
+    >
       {label && <p className="text-muted text-xs mb-1">{label}</p>}
       {payload.map((p, i) => (
-        <p key={i} className="text-snow font-semibold">{p.name}: {p.value}</p>
+        <p key={i} className="text-snow font-bold">{p.name}: {p.value}</p>
       ))}
     </div>
   );
@@ -61,9 +91,9 @@ const ChartTooltip = ({ active, payload, label }) => {
 /* ── Main Component ──────────────────────────────────────── */
 export default function AnalyticsView({ project, onLocateOnMap }) {
   const [analytics, setAnalytics] = useState(null);
-  const [trees, setTrees] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState({ health: '', search: '' });
+  const [trees, setTrees]         = useState([]);
+  const [loading, setLoading]     = useState(true);
+  const [filter, setFilter]       = useState({ health: '', search: '' });
 
   useEffect(() => {
     if (!project) return;
@@ -96,44 +126,39 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
   }
 
   const healthData = [
-    { name: 'Healthy',  value: analytics.health_breakdown.healthy,  color: PALETTE.secondary },
-    { name: 'Moderate', value: analytics.health_breakdown.moderate, color: PALETTE.warning   },
-    { name: 'Poor',     value: analytics.health_breakdown.poor,     color: PALETTE.danger    },
+    { name: 'Healthy',  value: analytics.health_breakdown.healthy,  color: '#22c55e' },
+    { name: 'Moderate', value: analytics.health_breakdown.moderate, color: '#eab308' },
+    { name: 'Poor',     value: analytics.health_breakdown.poor,     color: '#ef4444' },
   ].filter((d) => d.value > 0);
 
+  const glassPanelStyle = {
+    background: 'rgba(255,255,255,0.72)',
+    backdropFilter: 'blur(24px)',
+    border: '1px solid rgba(34,197,94,0.20)',
+    boxShadow: '0 4px 24px rgba(34,197,94,0.08)',
+  };
+
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-6 max-w-7xl mx-auto space-y-6 relative z-10">
       {/* Header */}
       <div>
         <h1 className="text-snow text-2xl font-bold">Analytics</h1>
-        <p className="text-muted text-sm mt-0.5">Inventory overview for <span className="text-subtle">{project.name}</span></p>
+        <p className="text-muted text-sm mt-0.5">Inventory overview for <span className="text-subtle font-semibold">{project.name}</span></p>
       </div>
 
       {/* KPI Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard
-          label="Total Trees" value={analytics.total_trees.toLocaleString()} sub="Individual detections"
-          icon={TreePine} accent="bg-gradient-to-r from-primary to-primary/50" iconColor="text-primary"
-        />
-        <KpiCard
-          label="Avg Canopy Height" value={`${analytics.average_height || 0}m`} sub="Mean height across stand"
-          icon={Ruler} accent="bg-gradient-to-r from-secondary to-secondary/50" iconColor="text-secondary"
-        />
-        <KpiCard
-          label="Health Score" value={`${analytics.health_score || 0}%`} sub="Percentage healthy"
-          icon={HeartPulse} accent="bg-gradient-to-r from-secondary to-warning/50" iconColor="text-secondary"
-        />
-        <KpiCard
-          label="Area" value={`${analytics.area_hectares || 0} ha`} sub="Total boundary"
-          icon={Maximize2} accent="bg-gradient-to-r from-warning to-warning/50" iconColor="text-warning"
-        />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <KpiCard label="Total Trees"        value={analytics.total_trees.toLocaleString()} sub="Individual detections"   icon={TreePine}   accentColor="#22c55e" />
+        <KpiCard label="Avg Canopy Height"  value={`${analytics.average_height || 0}m`}    sub="Mean height across stand" icon={Ruler}       accentColor="#16a34a" />
+        <KpiCard label="Health Score"       value={`${analytics.health_score || 0}%`}       sub="Percentage healthy"       icon={HeartPulse}  accentColor="#f97316" />
+        <KpiCard label="Area"               value={`${analytics.area_hectares || 0} ha`}    sub="Total boundary"          icon={Maximize2}   accentColor="#eab308" />
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Pie — health */}
-        <div className="bg-card border border-edge rounded-2xl p-5">
-          <h3 className="text-snow font-semibold text-sm mb-4">Health Classification</h3>
+        <div className="rounded-2xl p-5" style={glassPanelStyle}>
+          <h3 className="text-snow font-bold text-sm mb-4">Health Classification</h3>
           <div style={{ height: 260 }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -156,16 +181,16 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
         </div>
 
         {/* Bar — height distribution */}
-        <div className="bg-card border border-edge rounded-2xl p-5">
-          <h3 className="text-snow font-semibold text-sm mb-4">Height Distribution (m)</h3>
+        <div className="rounded-2xl p-5" style={glassPanelStyle}>
+          <h3 className="text-snow font-bold text-sm mb-4">Height Distribution (m)</h3>
           <div style={{ height: 260 }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={analytics.height_distribution} margin={{ top: 0, right: 4, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={PALETTE.edge} vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,197,94,0.15)" vertical={false} />
                 <XAxis dataKey="range" stroke={PALETTE.muted} fontSize={10} tickLine={false} axisLine={false} />
                 <YAxis stroke={PALETTE.muted} fontSize={10} tickLine={false} axisLine={false} />
                 <RechartsTooltip content={<ChartTooltip />} />
-                <Bar dataKey="count" fill={PALETTE.primary} radius={[4, 4, 0, 0]} name="Trees" />
+                <Bar dataKey="count" fill="#22c55e" radius={[4, 4, 0, 0]} name="Trees" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -173,10 +198,11 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
       </div>
 
       {/* Tree inventory table */}
-      <div className="bg-card border border-edge rounded-2xl overflow-hidden">
+      <div className="rounded-2xl overflow-hidden" style={glassPanelStyle}>
         {/* Table header */}
-        <div className="flex items-start sm:items-center justify-between gap-3 px-5 py-4 border-b border-edge flex-wrap">
-          <h2 className="text-snow font-semibold text-sm">Master Tree Inventory</h2>
+        <div className="flex items-start sm:items-center justify-between gap-3 px-5 py-4 flex-wrap"
+             style={{ borderBottom: '1px solid rgba(34,197,94,0.15)' }}>
+          <h2 className="text-snow font-bold text-sm">Master Tree Inventory</h2>
           <div className="flex items-center gap-2 flex-wrap">
             {/* Search */}
             <div className="relative">
@@ -203,7 +229,12 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
                 <option value="Poor">Poor</option>
               </select>
             </div>
-            <span className="text-muted text-xs">{filteredTrees.length} / {trees.length}</span>
+            <span
+              className="text-xs font-bold px-2.5 py-1 rounded-full"
+              style={{ background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.22)', color: '#16a34a' }}
+            >
+              {filteredTrees.length} / {trees.length}
+            </span>
           </div>
         </div>
 
@@ -211,9 +242,9 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
         <div className="overflow-x-auto" style={{ maxHeight: 480 }}>
           <table className="w-full text-sm">
             <thead className="sticky top-0 z-10">
-              <tr className="border-b border-edge bg-elevated">
+              <tr style={{ borderBottom: '1px solid rgba(34,197,94,0.15)', background: 'rgba(240,253,244,0.85)', backdropFilter: 'blur(12px)' }}>
                 {['Tree ID', 'Height (m)', 'Health', 'Coordinates', 'Action'].map((h) => (
-                  <th key={h} className="px-4 py-3 text-left text-[10px] font-semibold text-muted uppercase tracking-wider whitespace-nowrap">
+                  <th key={h} className="px-4 py-3 text-left text-[10px] font-bold text-muted uppercase tracking-wider whitespace-nowrap">
                     {h}
                   </th>
                 ))}
@@ -221,7 +252,13 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
             </thead>
             <tbody>
               {filteredTrees.slice(0, 100).map((tree) => (
-                <tr key={tree.id} className="border-b border-edge/50 hover:bg-elevated/40 transition-colors">
+                <tr
+                  key={tree.id}
+                  className="transition-colors"
+                  style={{ borderBottom: '1px solid rgba(34,197,94,0.08)' }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(34,197,94,0.04)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                >
                   <td className="px-4 py-3 font-bold text-primary">#{tree.tree_index}</td>
                   <td className="px-4 py-3 text-snow">{tree.height_m}m</td>
                   <td className="px-4 py-3"><HealthBadge status={tree.health_status} /></td>
@@ -231,7 +268,10 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
                   <td className="px-4 py-3">
                     <button
                       onClick={() => onLocateOnMap(tree)}
-                      className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-edge text-subtle hover:text-primary hover:border-primary/40 text-xs transition-colors"
+                      className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all"
+                      style={{ border: '1px solid rgba(34,197,94,0.25)', color: '#16a34a' }}
+                      onMouseEnter={e => { e.currentTarget.style.background = 'rgba(34,197,94,0.10)'; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
                     >
                       <MapPin size={11} />Locate
                     </button>
