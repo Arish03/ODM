@@ -139,22 +139,24 @@ export default function LoginPage() {
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Username */}
             <div>
               <label className="block text-subtle text-xs font-bold mb-1.5 uppercase tracking-wider">
                 Username
               </label>
-              <div className="relative">
-                <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
+              <div className="relative group/input">
+                <div className="absolute left-12.5 top-1/2 -translate-y-1/2 text-muted transition-colors group-focus-within/input:text-primary pointer-events-none">
+                  <User size={0} />
+                </div>
                 <input
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter your username"
+                  placeholder="admin"
                   required
                   autoFocus
-                  className="input-base pl-10 pr-4 py-3 rounded-xl"
+                  className="input-base pl-15 pr-4 py-3 rounded-xl ring-offset-background placeholder:text-muted/50"
                 />
               </div>
             </div>
@@ -164,16 +166,18 @@ export default function LoginPage() {
               <label className="block text-subtle text-xs font-bold mb-1.5 uppercase tracking-wider">
                 Password
               </label>
-              <div className="relative">
-                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
+              <div className="relative group/input">
+                <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted transition-colors group-focus-within/input:text-primary pointer-events-none">
+                  <Lock size={0} />
+                </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder="••••••••"
                   required
                   autoComplete="current-password"
-                  className="input-base pl-10 pr-11 py-3 rounded-xl"
+                  className="input-base pl-11 pr-11 py-3 rounded-xl placeholder:text-muted/50"
                 />
                 <button
                   type="button"
@@ -211,7 +215,6 @@ export default function LoginPage() {
             <p className="text-muted text-[10px] font-bold uppercase tracking-wider mb-2">Demo Access</p>
             <div className="space-y-0.5">
               <p className="text-subtle text-xs">Admin: <span className="font-mono text-snow font-bold">admin / admin123</span></p>
-              <p className="text-subtle text-xs">Client: <span className="font-mono text-snow font-bold">client / client123</span></p>
             </div>
           </div>
         </div>

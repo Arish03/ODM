@@ -1,8 +1,9 @@
 <div align="center">
 
 # 🛰️ Open Drone Mapping (ODM)
+### Precision Aerial Intelligence & Plantation Analytics
 
-**A premium, enterprise-grade full-stack platform for precision drone survey management and GIS analytics.**
+**A premium, enterprise-grade GIS platform for processing drone surveys, visualizing tree health, and managing large-scale agricultural inventories.**
 
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev)
@@ -10,78 +11,119 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-PostGIS-336791?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
 
-[Features](#-features) • [Tech Stack](#-tech-stack) • [Quick Start](#-quick-start) • [Docker Deployment](#-docker-deployment) • [Architecture](#-architecture)
+[Key Features](#-key-features) • [Tech Stack](#-tech-stack) • [Quick Start](#-quick-start) • [Deployment](#-deployment) • [Architecture](#-architecture)
 
 </div>
 
-<br />
+---
 
-> **Open Drone Mapping** bridges the gap between raw aerial data and actionable agriculture intelligence. Administrators govern concurrent GIS processing pipelines while clients interact with a stunning **Green Glassmorphism** interface designed for high-precision field analysis.
+## 🌿 Overview
+
+**Open Drone Mapping (ODM)** bridges the gap between raw aerial data and actionable intelligence for the agriculture and forestry sectors. Built for **LanSub Intelligence**, the platform enables administrators to process heavy drone imagery into orthomosaics and vector layers, while providing clients with a stunning, high-performance web interface.
+
+The UI is built on a custom **Green Glassmorphism** design system, ensuring a premium feel that works seamlessly on both desktop monitors and field tablets.
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-- **Immersive Glassmorphic UI:** A premium "Forest-Glass" aesthetic utilizing `backdrop-blur`, emerald tints, and animated aurora backgrounds for a superior SaaS experience.
-- **Mobile Responsive Design:** Completely optimized for field use on tablets and smartphones with collapsible map controls and adaptive navigation.
-- **Asynchronous GIS Processing:** Process heavy orthomosaics and vector layers (Shapefiles) in the background using Celery and Redis.
-- **Interactive Map Engine:** High-performance MapLibre GL integration with health analysis overlays, tree height legends, and dynamic layer control.
-- **LanSub Intelligence Branding:** Custom-branded for Open Drone Mapping (ODM) with professional glass logos and integrated iconography.
+### 🗺️ Advanced Map Visualization
+- **Multi-Layer Control:** Toggle between Orthomosaics, DTM (Terrain), and DSM (Surface) models.
+- **Dynamic Overlays:** View plantation boundaries, tree locations, and health heatmaps in real-time.
+- **Glassmorphic Legend:** Interactive, beautiful legends for height and health scoring.
+
+### 📊 Precision Analytics
+- **Tree-Level Intelligence:** Individual tree detection with height and health status.
+- **KPI Dashboards:** High-level analytics for total canopy volume, health distribution, and project progress.
+- **Chart.js Integration:** Visual data distribution for plantation health audits.
+
+### 🏗️ Enterprise Infrastructure
+- **Asynchronous GIS Pipeline:** Heavy geospatial processing (GDAL/PostGIS) handled in the background via Celery.
+- **Mobile First:** Fully responsive Sidebar-shell and Map interfaces.
+- **Role-Based Access:** Dedicated views for Administrators (survey management) and Clients (data consumption).
+
+---
+
+## 📸 Visual Walkthrough
+
+### 🏠 Admin Dashboard
+*Real-time telemetry and fleet management with a forest-glass aesthetic.*
+![Admin Dashboard](./docs/images/dashboard.png)
+
+### 🏗️ Project Wizard
+*Seamless, multi-step drone survey initialization and data upload.*
+![Project Wizard](./docs/images/wizard.png)
 
 ---
 
 ## 🏗️ Tech Stack
 
-| Domain | Technologies Used |
-| :--- | :--- |
-| **Frontend Framework** | React 19, Vite 6, React Router v7 |
-| **Styling & UI** | Vanilla CSS (Modern), Lucide React (Icons) |
-| **Mapping Engine**   | MapLibre GL JS |
-| **Backend Core** | Python 3.12, FastAPI, SQLAlchemy |
-| **Databases** | PostgreSQL + PostGIS, Redis |
-| **Task Queue** | Celery Workers |
-| **Containerization** | Docker & Docker Compose |
+### Frontend
+- **Framework:** React 19 + Vite 6
+- **State/Routing:** React Router v7, Context API
+- **Maps:** MapLibre GL JS
+- **Styling:** Modern Vanilla CSS + Glassmorphism Tokens
+- **Icons:** Lucide React
+
+### Backend & AI
+- **Core:** Python 3.12 + FastAPI
+- **Database:** PostgreSQL 16 + PostGIS
+- **Task Queue:** Celery + Redis
+- **GIS Engine:** GDAL, GeoPandas, Shapely
+- **Auth:** JWT-based Secure Authentication
 
 ---
 
-## 🚀 Quick Start (Local Development)
+## 🚀 Quick Start (Docker)
 
-### 1. Backend Setup
+The fastest way to deploy the entire stack is using Docker Compose.
+
+### 1. Requirements
+- Docker Desktop (Windows/Mac/Linux)
+- 8GB RAM minimum (for GIS processing)
+
+### 2. Launching the Stack
+From the project root:
 ```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
-
-### 2. Frontend Setup
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
----
-
-## 🐳 Docker Deployment
-
-The fastest way to run the entire ODM stack is via Docker Compose.
-
-```bash
-# 1. Build and start all services (Frontend, Backend, Worker, DB, Redis)
+# Build and start all services (DB, Redis, Backend, Worker, Frontend)
 docker-compose up --build
-
-# 2. Access the platform
-# Frontend: http://localhost:5000
-# Backend API: http://localhost:8000
 ```
+
+### 3. Verification
+- **Frontend Dashboard:** [http://localhost:5000](http://localhost:5000)
+- **Backend API Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
-## 🌿 Design Philosophy
-Open Drone Mapping utilizes a **Green Glassmorphism** design system. This focuses on depth, transparency, and a vibrant emerald palette that reflects the agricultural nature of our data. All UI elements adhere to a strict glass token system defined in `globals.css`.
+## ⚙️ Environment Configuration
+
+Both Frontend and Backend use `.env` files for configuration.
+
+### Backend (`/backend/.env`)
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@db:5432/db` |
+| `REDIS_URL` | Redis connection string | `redis://redis:6379/0` |
+| `SECRET_KEY` | JWT signing key | `[Required for Production]` |
+
+---
+
+## 🌎 Production Considerations
+
+### Nginx Proxy & SSL
+The included `frontend/nginx.conf` handles SPA routing. For production:
+- Ensure `ports: 443:443` is enabled in `docker-compose.yml`.
+- Mount your SSL certificates into the `frontend` container.
+- Update the Nginx config to use `ssl_certificate` and `ssl_certificate_key`.
+
+### Background Processing
+The `worker` service should be scaled horizontally if processing high volumes of drone imagery.
+
+---
+
+## 🎨 UI Philosophy (Green Glassmorphism)
+Our design system focuses on **Depth**, **Transparency**, and **Vibrant Emerald Tones**. All components utilize the `.glass` and `.glass-card` classes defined in `globals.css` to create a harmonious blend between the heavy map data and the UI controls.
 
 <div align="center">
-  <sub>Built with ❤️ by LanSub Intelligence for modern drone operations.</sub>
+  <sub>Developed by <b>LanSub Intelligence</b>. Proprietary GIS Software.</sub>
 </div>
