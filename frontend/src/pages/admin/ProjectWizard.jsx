@@ -25,24 +25,28 @@ function StepBar({ step }) {
     { n: 3, label: 'Processing' },
   ];
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-wrap items-center gap-y-3 gap-x-2">
       {steps.map((s, i) => (
         <div key={s.n} className="flex items-center gap-2">
-          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-            step === s.n
-              ? 'bg-primary/15 border border-primary/40 text-primary'
-              : step > s.n
-              ? 'text-secondary'
-              : 'text-muted'
-          }`}>
+          <div
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold transition-all"
+            style={
+              step === s.n
+                ? { background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.35)', color: '#16a34a' }
+                : step > s.n
+                ? { color: '#15803d' }
+                : { color: '#6b7280' }
+            }
+          >
             {step > s.n
               ? <CheckCircle2 size={13} />
-              : <span className={`w-5 h-5 rounded-full border flex items-center justify-center text-[10px] ${step === s.n ? 'border-primary bg-primary/20' : 'border-muted'}`}>{s.n}</span>
+              : <span className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]"
+                     style={step === s.n ? { borderColor: '#22c55e', background: 'rgba(34,197,94,0.15)' } : { borderColor: '#9ca3af' }}>{s.n}</span>
             }
             {s.label}
           </div>
           {i < steps.length - 1 && (
-            <div className={`h-px w-6 ${step > s.n ? 'bg-secondary/50' : 'bg-edge'}`} />
+            <div className="h-px w-6" style={{ background: step > s.n ? '#22c55e50' : '#bbf7d0' }} />
           )}
         </div>
       ))}
@@ -60,16 +64,16 @@ function UploadCard({ layer, state, onSelectFiles, onUpload, onRemoveFile }) {
     return ['dbf', 'shx', 'prj'].some((e) => !exts.includes(e));
   })();
 
-  const borderCls = isCompleted
-    ? 'border-secondary/30 bg-secondary/3'
+  const statusStyle = isCompleted
+    ? { border: '1px solid rgba(34,197,94,0.35)', background: 'rgba(34,197,94,0.06)' }
     : isError
-    ? 'border-danger/30 bg-danger/3'
+    ? { border: '1px solid rgba(239,68,68,0.30)', background: 'rgba(239,68,68,0.05)' }
     : isUploading
-    ? 'border-primary/30'
-    : 'border-edge';
+    ? { border: '1px solid rgba(34,197,94,0.30)', background: 'rgba(34,197,94,0.04)' }
+    : { border: '1px solid rgba(34,197,94,0.18)', background: 'rgba(255,255,255,0.70)' };
 
   return (
-    <div className={`bg-card border ${borderCls} rounded-2xl p-4 flex flex-col gap-3 transition-colors`}>
+    <div className="rounded-2xl p-4 flex flex-col gap-3 transition-all duration-300" style={{ backdropFilter: 'blur(20px)', ...statusStyle }}>
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
@@ -79,9 +83,10 @@ function UploadCard({ layer, state, onSelectFiles, onUpload, onRemoveFile }) {
           </h3>
           <p className="text-muted text-xs mt-0.5">{layer.description}</p>
         </div>
-        <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
-          isCompleted ? 'bg-secondary/15' : 'bg-elevated'
-        }`}>
+      <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
+          isCompleted ? '' : ''
+        }`}
+           style={isCompleted ? { background: 'rgba(34,197,94,0.15)' } : { background: 'rgba(34,197,94,0.08)' }}>
           {isCompleted
             ? <CheckCircle2 size={14} className="text-secondary" />
             : <FileText size={14} className="text-muted" />
@@ -93,7 +98,8 @@ function UploadCard({ layer, state, onSelectFiles, onUpload, onRemoveFile }) {
       {state.files.length > 0 ? (
         <div className="space-y-1.5">
           {state.files.map((file) => (
-            <div key={file.name} className="flex items-center gap-2 bg-elevated rounded-lg px-2.5 py-1.5">
+            <div key={file.name} className="flex items-center gap-2 rounded-lg px-2.5 py-1.5"
+                 style={{ background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.15)' }}>
               <FileText size={11} className="text-primary flex-shrink-0" />
               <span className="text-subtle text-xs truncate flex-1">{file.name}</span>
               {!isUploading && (
@@ -112,11 +118,17 @@ function UploadCard({ layer, state, onSelectFiles, onUpload, onRemoveFile }) {
       ) : (
         <button
           onClick={() => onSelectFiles(layer.id)}
-          className="flex flex-col items-center justify-center gap-1.5 border-2 border-dashed border-edge hover:border-primary/50 hover:bg-elevated/50 rounded-xl py-5 text-center transition-all group"
+          className="flex flex-col items-center justify-center gap-2 rounded-2xl py-6 text-center transition-all duration-300 group"
+          style={{ border: '2px dashed rgba(34,197,94,0.30)', background: 'rgba(240,253,244,0.50)' }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(34,197,94,0.60)'; e.currentTarget.style.background = 'rgba(34,197,94,0.08)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(34,197,94,0.15)'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(34,197,94,0.30)'; e.currentTarget.style.background = 'rgba(240,253,244,0.50)'; e.currentTarget.style.boxShadow = 'none'; }}
         >
-          <Upload size={18} className="text-muted group-hover:text-primary transition-colors" />
-          <span className="text-muted text-xs group-hover:text-subtle transition-colors">Click to select files</span>
-          <span className="text-[10px] text-muted/60">{layer.ext}</span>
+          <div className="w-10 h-10 rounded-full flex items-center justify-center mb-1 transition-transform duration-300 group-hover:scale-110"
+               style={{ background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.25)' }}>
+            <Upload size={16} className="text-primary" />
+          </div>
+          <span className="text-subtle text-xs font-bold group-hover:text-snow transition-colors">Click to upload files</span>
+          <span className="text-[10px] text-muted group-hover:text-primary transition-colors uppercase tracking-widest">{layer.ext}</span>
         </button>
       )}
 
@@ -287,7 +299,8 @@ export default function ProjectWizard() {
           </div>
           <button
             onClick={() => navigate('/admin')}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-edge text-subtle hover:text-snow text-sm transition-colors flex-shrink-0"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-subtle hover:text-snow text-sm transition-colors flex-shrink-0"
+            style={{ border: '1px solid rgba(34,197,94,0.25)' }}
           >
             <ArrowLeft size={14} />Cancel
           </button>
@@ -295,21 +308,23 @@ export default function ProjectWizard() {
 
         {/* Error */}
         {error && (
-          <div className="flex items-center gap-2 p-3.5 bg-danger/10 border border-danger/30 rounded-xl text-danger text-sm">
+          <div className="flex items-center gap-2 p-3.5 rounded-xl text-danger text-sm"
+               style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)' }}>
             <AlertTriangle size={14} className="flex-shrink-0" />{error}
           </div>
         )}
 
         {/* ── Step 1: Details ──────────────────── */}
         {step === 1 && (
-          <div className="bg-card border border-edge rounded-2xl p-6 max-w-lg mx-auto">
+          <div className="rounded-2xl p-6 max-w-lg mx-auto"
+               style={{ background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(24px)', border: '1px solid rgba(34,197,94,0.20)', boxShadow: '0 8px 32px rgba(34,197,94,0.10)' }}>
             <form onSubmit={handleCreateProject} className="space-y-4">
               {[
                 { label: 'Project Name', key: 'name', placeholder: 'e.g. Pine Plantation Block A', required: true },
                 { label: 'Location', key: 'location', placeholder: 'e.g. North Ridge, Oregon' },
               ].map(({ label, key, placeholder, required }) => (
                 <div key={key}>
-                  <label className="block text-subtle text-xs font-semibold uppercase tracking-wider mb-1.5">{label}</label>
+                  <label className="block text-subtle text-xs font-bold uppercase tracking-wider mb-1.5">{label}</label>
                   <input
                     type="text"
                     value={formData[key]}
@@ -322,7 +337,7 @@ export default function ProjectWizard() {
               ))}
 
               <div>
-                <label className="block text-subtle text-xs font-semibold uppercase tracking-wider mb-1.5">Assigned Client</label>
+                <label className="block text-subtle text-xs font-bold uppercase tracking-wider mb-1.5">Assigned Client</label>
                 <select
                   value={formData.client_id}
                   onChange={(e) => setFormData({ ...formData, client_id: e.target.value })}
@@ -335,7 +350,7 @@ export default function ProjectWizard() {
               </div>
 
               <div>
-                <label className="block text-subtle text-xs font-semibold uppercase tracking-wider mb-1.5">Description (optional)</label>
+                <label className="block text-subtle text-xs font-bold uppercase tracking-wider mb-1.5">Description (optional)</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -345,9 +360,11 @@ export default function ProjectWizard() {
               </div>
 
               <div className="flex justify-end pt-2">
-                <button type="submit" disabled={loading} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-navy text-sm font-semibold hover:bg-primary/90 disabled:opacity-50 transition-all">
+                <button type="submit" disabled={loading}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-bold disabled:opacity-50 transition-all hover:-translate-y-0.5"
+                  style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 6px 20px rgba(34,197,94,0.30)' }}>
                   {loading
-                    ? <><span className="w-4 h-4 border-2 border-navy/40 border-t-navy rounded-full animate-spin" />Creating…</>
+                    ? <><span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />Creating…</>
                     : <>Next: Upload Data →</>
                   }
                 </button>
@@ -365,7 +382,8 @@ export default function ProjectWizard() {
               <button
                 onClick={uploadAllPending}
                 disabled={!hasPendingFiles}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-edge text-subtle hover:text-snow disabled:opacity-40 text-sm transition-colors"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-subtle hover:text-snow disabled:opacity-40 text-sm transition-colors"
+                style={{ border: '1px solid rgba(34,197,94,0.25)' }}
               >
                 <CloudUpload size={14} />Upload All Pending
               </button>
@@ -384,7 +402,7 @@ export default function ProjectWizard() {
               ))}
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-edge">
+            <div className="flex items-center justify-between pt-4" style={{ borderTop: '1px solid rgba(34,197,94,0.15)' }}>
               <div>
                 <p className="text-muted text-xs">Formats: GeoTIFF (.tif) for rasters · Shapefiles (.shp/.shx/.dbf/.prj) for vectors</p>
                 {!canProcess && (
@@ -397,7 +415,8 @@ export default function ProjectWizard() {
               <button
                 onClick={triggerProcessing}
                 disabled={!canProcess || loading}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-navy text-sm font-semibold hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-primary/20"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:-translate-y-0.5"
+                style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 6px 20px rgba(34,197,94,0.30)' }}
               >
                 <Rocket size={15} />{loading ? 'Starting…' : 'Process Project'}
               </button>
@@ -407,11 +426,10 @@ export default function ProjectWizard() {
 
         {/* ── Step 3: Processing ───────────────── */}
         {step === 3 && (
-          <div className="bg-card border border-edge rounded-2xl p-12 text-center space-y-5 max-w-lg mx-auto">
-            <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center ${
-              processingStatus === 'ready'  ? 'bg-secondary/15'
-              : processingStatus === 'error' ? 'bg-danger/15' : 'bg-primary/15'
-            }`}>
+          <div className="rounded-2xl p-12 text-center space-y-5 max-w-lg mx-auto"
+               style={{ background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(24px)', border: '1px solid rgba(34,197,94,0.20)', boxShadow: '0 8px 32px rgba(34,197,94,0.10)' }}>
+            <div className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center"
+                 style={processingStatus === 'ready' ? { background: 'rgba(34,197,94,0.12)' } : processingStatus === 'error' ? { background: 'rgba(239,68,68,0.12)' } : { background: 'rgba(34,197,94,0.10)' }}>
               {processingStatus === 'ready'
                 ? <CheckCircle2 size={32} className="text-secondary" />
                 : processingStatus === 'error'

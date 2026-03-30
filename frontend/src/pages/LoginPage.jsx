@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Leaf, ArrowRight, Lock, User } from 'lucide-react';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [username, setUsername]       = useState('');
+  const [password, setPassword]       = useState('');
+  const [error, setError]             = useState('');
+  const [loading, setLoading]         = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const { login }  = useAuth();
+  const navigate   = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,41 +28,53 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex h-screen bg-navy overflow-hidden">
+    <div className="flex h-screen overflow-hidden" style={{ background: '#f8fafc' }}>
+      {/* Aurora orbs */}
+      <div className="aurora-orb-1" />
+      <div className="aurora-orb-2" />
+      <div className="aurora-orb-3" />
 
-      {/* ── Left panel — decorative ─────────────────────────── */}
-      <div className="hidden lg:flex flex-col flex-1 relative overflow-hidden bg-gradient-to-br from-navy via-[#0d1a2f] to-navy">
-        {/* Glow orbs */}
-        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-primary/10 blur-[100px]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] rounded-full bg-secondary/8 blur-[80px]" />
-        <div className="absolute top-[40%] left-[30%] w-[200px] h-[200px] rounded-full bg-primary/5 blur-[60px]" />
+      {/* ── Left panel — decorative ──────────────────────── */}
+      <div className="hidden lg:flex flex-col flex-1 relative overflow-hidden sidebar-forest">
+        {/* Inner glow orbs */}
+        <div className="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full blur-[120px]"
+             style={{ background: 'rgba(34,197,94,0.25)' }} />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[300px] h-[300px] rounded-full blur-[100px]"
+             style={{ background: 'rgba(134,239,172,0.20)' }} />
 
-        {/* Grid overlay */}
+        {/* Agri-Tech dot mesh */}
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0 opacity-[0.08]"
           style={{
-            backgroundImage: 'linear-gradient(#00D1FF 1px, transparent 1px), linear-gradient(90deg, #00D1FF 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
+            backgroundImage: 'radial-gradient(#86efac 1.5px, transparent 1.5px), radial-gradient(#86efac 1.5px, transparent 1.5px)',
+            backgroundSize: '40px 40px',
+            backgroundPosition: '0 0, 20px 20px',
           }}
         />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-center h-full px-16">
           {/* Logo */}
-          <div className="flex items-center gap-3 mb-16">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/20">
-              <Leaf size={22} className="text-navy" />
-            </div>
-            <span className="text-snow text-2xl font-bold tracking-tight">PlantView</span>
+          <div className="flex items-center gap-4 mb-16">
+            <div
+              className="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md shadow-2xl flex-shrink-0"
+              style={{
+                backgroundImage: 'url(/logo.png)',
+                backgroundSize: '80%',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
+            />
+            <span className="text-white text-3xl font-black tracking-[0.2em] uppercase">ODM</span>
           </div>
 
-          <h1 className="text-snow text-4xl font-bold leading-tight mb-4">
+          <h1 className="text-white text-4xl font-black leading-tight mb-4">
             GIS-Powered<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-emerald-200">
               Plantation Analytics
             </span>
           </h1>
-          <p className="text-muted text-base leading-relaxed max-w-md mb-12">
+          <p className="text-white/60 text-base leading-relaxed max-w-md mb-12">
             Process drone imagery, visualize tree inventories, and monitor plantation health with precision geospatial tools.
           </p>
 
@@ -71,7 +83,12 @@ export default function LoginPage() {
             {['Drone Imagery', 'Tree Detection', 'Health Analysis', 'GIS Mapping'].map((f) => (
               <span
                 key={f}
-                className="px-3.5 py-1.5 rounded-full text-xs font-medium bg-elevated border border-edge text-subtle"
+                className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-white/80 uppercase tracking-wider"
+                style={{
+                  background: 'rgba(255,255,255,0.12)',
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  backdropFilter: 'blur(8px)',
+                }}
               >
                 {f}
               </span>
@@ -80,34 +97,42 @@ export default function LoginPage() {
         </div>
 
         {/* Bottom bar */}
-        <div className="relative z-10 px-16 py-6 border-t border-edge/50">
-          <p className="text-muted text-xs">© 2025 PlantView · Plantation Intelligence Platform</p>
+        <div className="relative z-10 px-16 py-6 border-t border-white/10">
+          <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">© 2026 Open Drone Mapping · LanSub Intelligence</p>
         </div>
       </div>
 
-      {/* ── Right panel — login form ─────────────────────────── */}
-      <div className="flex flex-col items-center justify-center w-full lg:w-[420px] xl:w-[480px] bg-card border-l border-edge flex-shrink-0 px-8 py-12 relative overflow-hidden">
-        {/* Subtle glow top right */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+      {/* ── Right panel — login form ─────────────────────── */}
+      <div className="flex flex-col items-center justify-center w-full lg:w-[440px] xl:w-[480px] flex-shrink-0 px-8 py-12 relative z-10">
+        {/* Glass login card */}
+        <div className="w-full max-w-sm glass-modal rounded-3xl p-8 relative overflow-hidden">
+          {/* Inner top glow */}
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
 
-        <div className="w-full max-w-sm relative z-10">
           {/* Mobile logo */}
-          <div className="flex items-center gap-2.5 mb-10 lg:hidden">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-              <Leaf size={18} className="text-navy" />
-            </div>
-            <span className="text-snow text-xl font-bold">PlantView</span>
+          <div className="flex items-center gap-3 mb-10 lg:hidden font-black">
+            <div
+              className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex-shrink-0 backdrop-blur-md shadow-lg"
+              style={{
+                backgroundImage: 'url(/logo.png)',
+                backgroundSize: '75%',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
+            />
+            <span className="text-snow text-xl uppercase tracking-widest font-black">ODM</span>
           </div>
 
           {/* Heading */}
           <div className="mb-8">
-            <h2 className="text-snow text-2xl font-bold mb-1.5">Welcome back</h2>
-            <p className="text-muted text-sm">Sign in to your account to continue</p>
+            <h2 className="text-snow text-2xl font-black mb-1.5">Welcome back</h2>
+            <p className="text-muted text-sm">Sign in to your PlantView account</p>
           </div>
 
           {/* Error */}
           {error && (
-            <div className="mb-5 flex items-start gap-2.5 px-4 py-3 bg-danger/10 border border-danger/30 rounded-xl">
+            <div className="mb-5 flex items-start gap-2.5 px-4 py-3 rounded-xl border"
+                 style={{ background: 'rgba(239,68,68,0.08)', borderColor: 'rgba(239,68,68,0.25)' }}>
               <Lock size={14} className="text-danger mt-0.5 flex-shrink-0" />
               <p className="text-danger text-sm">{error}</p>
             </div>
@@ -117,7 +142,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Username */}
             <div>
-              <label className="block text-subtle text-xs font-semibold mb-1.5 uppercase tracking-wider">
+              <label className="block text-subtle text-xs font-bold mb-1.5 uppercase tracking-wider">
                 Username
               </label>
               <div className="relative">
@@ -136,7 +161,7 @@ export default function LoginPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-subtle text-xs font-semibold mb-1.5 uppercase tracking-wider">
+              <label className="block text-subtle text-xs font-bold mb-1.5 uppercase tracking-wider">
                 Password
               </label>
               <div className="relative">
@@ -147,6 +172,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   required
+                  autoComplete="current-password"
                   className="input-base pl-10 pr-11 py-3 rounded-xl"
                 />
                 <button
@@ -164,22 +190,28 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-primary text-navy font-semibold text-sm rounded-xl py-3 mt-2 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full flex items-center justify-center gap-2 font-bold text-sm rounded-xl py-3.5 mt-2 text-white
+                disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:-translate-y-0.5"
+              style={{
+                background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                boxShadow: loading ? 'none' : '0 8px 24px rgba(34,197,94,0.35)',
+              }}
             >
               {loading ? (
-                <div className="w-4 h-4 border-2 border-navy/40 border-t-navy rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
               ) : (
                 <>Sign In <ArrowRight size={15} /></>
               )}
             </button>
           </form>
 
-          {/* Demo creds (subtle) */}
-          <div className="mt-8 p-3.5 bg-elevated/60 border border-edge rounded-xl">
-            <p className="text-muted text-[10px] font-semibold uppercase tracking-wider mb-2">Demo Access</p>
+          {/* Demo creds */}
+          <div className="mt-8 p-3.5 rounded-xl"
+               style={{ background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.18)' }}>
+            <p className="text-muted text-[10px] font-bold uppercase tracking-wider mb-2">Demo Access</p>
             <div className="space-y-0.5">
-              <p className="text-subtle text-xs">Admin: <span className="font-mono text-snow">admin / admin123</span></p>
-              <p className="text-subtle text-xs">Client: <span className="font-mono text-snow">client / client123</span></p>
+              <p className="text-subtle text-xs">Admin: <span className="font-mono text-snow font-bold">admin / admin123</span></p>
+              <p className="text-subtle text-xs">Client: <span className="font-mono text-snow font-bold">client / client123</span></p>
             </div>
           </div>
         </div>

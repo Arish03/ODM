@@ -77,7 +77,7 @@ export default function MapView({ project }) {
         id: 'boundary-line',
         type: 'line',
         source: 'boundary',
-        paint: { 'line-color': '#00D1FF', 'line-width': 3, 'line-opacity': 0.9 },
+        paint: { 'line-color': '#f97316', 'line-width': 3, 'line-opacity': 0.9 },
         layout: { visibility: layers.overlays.boundary ? 'visible' : 'none' },
       });
     }
@@ -118,7 +118,7 @@ export default function MapView({ project }) {
       id: 'trees-health', type: 'circle', source: 'trees',
       paint: {
         'circle-radius': 6,
-        'circle-color': ['match', ['get', 'health_status'], 'Healthy', '#00FFA3', 'Moderate', '#FFB020', 'Poor', '#FF4D4F', '#64748b'],
+        'circle-color': ['match', ['get', 'health_status'], 'Healthy', '#22c55e', 'Moderate', '#eab308', 'Poor', '#FF4D4F', '#64748b'],
         'circle-stroke-width': 1.5, 'circle-stroke-color': '#000000',
       },
       layout: { visibility: layers.overlays.health ? 'visible' : 'none' },
@@ -129,14 +129,14 @@ export default function MapView({ project }) {
       paint: {
         'circle-radius': ['interpolate', ['linear'], ['get', 'height_m'], min, 8, min + delta * 0.5, 12, max, 18],
         'circle-color': ['interpolate', ['linear'], ['get', 'height_m'],
-          min,                  '#ffff00',
-          min + delta * 0.15,   '#ffcc00',
-          min + delta * 0.30,   '#ff8c00',
-          min + delta * 0.45,   '#e91e63',
-          min + delta * 0.60,   '#d81b60',
-          min + delta * 0.75,   '#8e24aa',
-          min + delta * 0.90,   '#3f51b5',
-          max,                  '#1a237e',
+          min,                  '#fef08a',
+          min + delta * 0.15,   '#facc15',
+          min + delta * 0.30,   '#eab308',
+          min + delta * 0.45,   '#84cc16',
+          min + delta * 0.60,   '#22c55e',
+          min + delta * 0.75,   '#16a34a',
+          min + delta * 0.90,   '#15803d',
+          max,                  '#14532d',
         ],
         'circle-opacity': 0.85, 'circle-stroke-width': 1, 'circle-stroke-color': '#000000',
       },
@@ -202,6 +202,9 @@ export default function MapView({ project }) {
 
   return (
     <div className="relative w-full" style={{ height: 'calc(100vh - 56px)' }}>
+      {/* Aurora orbs behind map (optional, but subtle) */}
+      <div className="aurora-orb-2 opacity-50" style={{ left: '20%' }} />
+
       {/* Map canvas */}
       <div ref={mapContainer} className="absolute inset-0" />
 
@@ -210,18 +213,32 @@ export default function MapView({ project }) {
 
       {/* Height legend */}
       {layers.overlays.height && (
-        <div className="absolute right-4 bottom-8 z-10 bg-card/90 backdrop-blur-xl border border-edge rounded-2xl p-3.5 shadow-2xl w-24">
-          <p className="text-[9px] font-semibold text-muted uppercase tracking-wider text-center mb-2.5">Height (m)</p>
-          <div className="flex gap-2 h-44">
-            <div className="w-3 rounded-md flex-shrink-0" style={{
-              background: 'linear-gradient(to top, #ffff00 0%, #ffcc00 15%, #ff8c00 30%, #e91e63 45%, #d81b60 60%, #8e24aa 75%, #3f51b5 90%, #1a237e 100%)',
-            }} />
-            <div className="flex flex-col justify-between text-[9px] text-muted">
+        <div
+          className="absolute right-4 bottom-8 z-10 rounded-2xl p-4 shadow-2xl w-28"
+          style={{
+            background: 'rgba(255,255,255,0.88)',
+            backdropFilter: 'blur(24px)',
+            border: '1px solid rgba(34,197,94,0.22)',
+            boxShadow: '0 8px 32px rgba(34,197,94,0.15)',
+          }}
+        >
+          <p className="text-[10px] font-bold text-muted uppercase tracking-widest text-center mb-3">Height (m)</p>
+          <div className="flex gap-2.5 h-48">
+            <div
+              className="w-3 rounded-full flex-shrink-0"
+              style={{
+                background: 'linear-gradient(to top, #fef08a 0%, #facc15 15%, #eab308 30%, #84cc16 45%, #22c55e 60%, #16a34a 75%, #15803d 90%, #14532d 100%)',
+                border: '1px solid rgba(0,0,0,0.05)',
+              }}
+            />
+            <div className="flex flex-col justify-between text-[10px] font-bold text-snow">
               {[heightRange.max, 0.85, 0.71, 0.57, 0.42, 0.28, 0.14, 0].map((fr, i) => (
-                <span key={i}>{typeof fr === 'number' && fr < 1 && fr > 0
-                  ? (heightRange.min + (heightRange.max - heightRange.min) * fr).toFixed(1)
-                  : fr === 0 ? heightRange.min.toFixed(1)
-                  : fr.toFixed(1)}
+                <span key={i}>
+                  {typeof fr === 'number' && fr < 1 && fr > 0
+                    ? (heightRange.min + (heightRange.max - heightRange.min) * fr).toFixed(1)
+                    : fr === 0
+                    ? heightRange.min.toFixed(1)
+                    : fr.toFixed(1)}
                 </span>
               ))}
             </div>

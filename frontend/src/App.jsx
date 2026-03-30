@@ -13,6 +13,8 @@ import ProjectWizard from './pages/admin/ProjectWizard';
 import AdminClients from './pages/admin/AdminClients';
 import MapView from './pages/client/MapView';
 import AnalyticsView from './pages/client/AnalyticsView';
+import HowToUse from './pages/HowToUse';
+import AboutUs from './pages/AboutUs';
 
 /* ── Client Portal — manages project + view state ──────────── */
 function ClientPortal() {
@@ -40,7 +42,7 @@ function ClientPortal() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-navy">
+      <div className="flex items-center justify-center h-screen bg-canvas">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-edge border-t-primary rounded-full animate-spin" />
           <p className="text-muted text-sm">Loading projects…</p>
@@ -125,6 +127,25 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <ClientPortal />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/how-to-use"
+              element={
+                <ProtectedRoute>
+                  <AppShell>
+                    <HowToUse />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/about-us"
+              element={
+                <ProtectedRoute>
+                  <AboutUs />
                 </ProtectedRoute>
               }
             />
