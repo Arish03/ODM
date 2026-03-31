@@ -48,11 +48,11 @@ The UI is built on a custom **Green Glassmorphism** design system, ensuring a pr
 
 ### 🏠 Admin Dashboard
 *Real-time telemetry and fleet management with a forest-glass aesthetic.*
-![Admin Dashboard](./docs/images/dashboard.png)
+![Admin Dashboard](docs/images/dashboard.png)
 
 ### 🏗️ Project Wizard
 *Seamless, multi-step drone survey initialization and data upload.*
-![Project Wizard](./docs/images/wizard.png)
+![Project Wizard](docs/images/wizard.png)
 
 ---
 
