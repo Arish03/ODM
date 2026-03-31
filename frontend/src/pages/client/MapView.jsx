@@ -19,13 +19,18 @@ export default function MapView({ project }) {
     const boundary = project.boundary_geojson ? JSON.parse(project.boundary_geojson) : null;
     let center = [0, 0];
     let zoom = 2;
+    let bounds = null;
 
     if (boundary?.features?.length > 0) {
       const coords = boundary.features[0].geometry.coordinates[0];
       const lngs = coords.map((c) => c[0]);
       const lats = coords.map((c) => c[1]);
       center = [(Math.min(...lngs) + Math.max(...lngs)) / 2, (Math.min(...lats) + Math.max(...lats)) / 2];
-      zoom = 15;
+      bounds = [
+        [Math.min(...lngs), Math.min(...lats)],
+        [Math.max(...lngs), Math.max(...lats)],
+      ];
+      zoom = 18;
     }
 
     map.current = new maplibregl.Map({
@@ -41,6 +46,10 @@ export default function MapView({ project }) {
       zoom,
       antialias: true,
     });
+
+    if (bounds) {
+      map.current.fitBounds(bounds, { padding: 40, maxZoom: 20 });
+    }
 
     map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
 
@@ -201,12 +210,9 @@ export default function MapView({ project }) {
   }, [layers.overlays]);
 
   return (
-    <div className="relative w-full" style={{ height: 'calc(100vh - 56px)' }}>
-      {/* Aurora orbs behind map (optional, but subtle) */}
-      <div className="aurora-orb-2 opacity-50" style={{ left: '20%' }} />
-
+    <div className="absolute inset-0">
       {/* Map canvas */}
-      <div ref={mapContainer} className="absolute inset-0" />
+      <div ref={mapContainer} className="w-full h-full" />
 
       {/* Layer controller */}
       <LayerController layers={layers} setLayers={setLayers} />

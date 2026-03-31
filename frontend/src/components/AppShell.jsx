@@ -67,8 +67,8 @@ export default function AppShell({
           </div>
         </div>
 
-        {/* Scrollable page content */}
-        <main className="flex-1 overflow-y-auto relative">
+        {/* Page content */}
+        <main className="flex-1 relative overflow-auto">
           {children}
         </main>
       </div>

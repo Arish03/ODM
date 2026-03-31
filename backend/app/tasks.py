@@ -94,7 +94,7 @@ def process_project_files(self, project_id: str):
             try:
                 gdf_metric = gdf_boundary.to_crs(epsg=3857)
                 area_m2 = gdf_metric.geometry.area.sum()
-                project.area_hectares = round(area_m2 / 10000, 2)
+                project.area_hectares = float(round(area_m2 / 10000, 2))
             except Exception as e:
                 logger.warning(f"Could not calculate area: {e}")
 
