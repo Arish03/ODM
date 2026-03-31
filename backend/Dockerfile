@@ -21,8 +21,17 @@ WORKDIR /app
 # Copy only requirements first → pip layer is cached unless requirements.txt changes
 COPY requirements.txt .
 
+# Upgrade pip first to resolve hash-checking issues in newer releases
+RUN pip install --no-cache-dir --upgrade pip
+
+# Pre-install wcwidth to bypass hash corruption issues seen in long builds
+RUN pip install --no-cache-dir --retries 20 --timeout 300 \
+        --prefix=/install \
+        wcwidth==0.6.0
+
 # Install into a prefix directory so runtime stage can copy cleanly
-RUN pip install --no-cache-dir --retries 10 --timeout 100 \
+# Increased timeout to 300s and retries to 15 for stability
+RUN pip install --no-cache-dir --retries 15 --timeout 300 \
         --prefix=/install \
         -r requirements.txt
 

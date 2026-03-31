@@ -5,8 +5,11 @@ from app.auth import hash_password
 
 
 def seed():
-    # Create all tables
-    Base.metadata.create_all(bind=engine)
+    # Create all tables (ignoring race condition errors if already created)
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception:
+        pass
 
     db = SessionLocal()
     try:
