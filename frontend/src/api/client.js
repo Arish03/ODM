@@ -16,14 +16,21 @@ client.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle 401
+// Handle 401 – only redirect for non-login requests when on a different page
 client.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+      const url = error.config?.url || '';
+      // Don't redirect if this was already a login attempt
+      if (!url.includes('/auth/login')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        // Only redirect if we're not already on the login page
+        if (!window.location.pathname.startsWith('/login')) {
+          window.location.href = '/login';
+        }
+      }
     }
     return Promise.reject(error);
   }

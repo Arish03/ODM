@@ -93,18 +93,27 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
   const [analytics, setAnalytics] = useState(null);
   const [trees, setTrees]         = useState([]);
   const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState(null);
   const [filter, setFilter]       = useState({ health: '', search: '' });
 
-  useEffect(() => {
+  const fetchData = () => {
     if (!project) return;
     setLoading(true);
+    setError(null);
     Promise.all([
       api.get(`/projects/${project.id}/analytics`),
       api.get(`/projects/${project.id}/trees/list`),
     ]).then(([statsRes, listRes]) => {
       setAnalytics(statsRes.data);
       setTrees(listRes.data);
-    }).catch(console.error).finally(() => setLoading(false));
+    }).catch((err) => {
+      console.error('Analytics fetch error:', err);
+      setError(err?.response?.data?.detail || 'Failed to load analytics data.');
+    }).finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [project?.id]);
 
   const filteredTrees = trees.filter((t) => {
@@ -122,7 +131,18 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
   }
 
   if (!analytics) {
-    return <div className="flex items-center justify-center py-24 text-muted text-sm">Failed to load analytics data.</div>;
+    return (
+      <div className="flex flex-col items-center justify-center py-24 gap-4">
+        <p className="text-muted text-sm">{error || 'Failed to load analytics data.'}</p>
+        <button
+          onClick={fetchData}
+          className="px-4 py-2 rounded-lg text-sm font-bold transition-colors"
+          style={{ background: 'rgba(34,197,94,0.10)', color: '#16a34a', border: '1px solid rgba(34,197,94,0.25)' }}
+        >
+          Retry
+        </button>
+      </div>
+    );
   }
 
   const healthData = [
