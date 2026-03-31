@@ -32,6 +32,12 @@ async def lifespan(app: FastAPI):
         except OperationalError as e:
             print(f"Database not ready (attempt {i+1}/{max_retries}): {e}")
             time.sleep(retry_interval)
+        except Exception as e:
+            if "duplicate" in str(e).lower() or "already exists" in str(e).lower():
+                print(f"Database objects already exist (worker race condition ignored).")
+                connected = True
+                break
+            raise
 
     if not connected:
         print("Could not connect to database after multiple retries. Exiting.")
