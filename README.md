@@ -56,6 +56,45 @@ The UI is built on a custom **Green Glassmorphism** design system, ensuring a pr
 
 ---
 
+---
+
+## 🏗️ Architecture & Dataflow
+
+### 🛰️ System Architecture
+The ODM platform follows a distributed, asynchronous GIS processing model.
+
+```mermaid
+graph TD
+    Client((User / Field Tablet)) --> Frontend[React 19 + MapLibre UI]
+    Frontend <--> API[FastAPI Gateway]
+    API <--> Auth[JWT Security]
+    API <--> PostgreSQL[(PostgreSQL 16 + PostGIS)]
+    API <--> Redis[Redis Queue]
+    Redis <--> Worker[Celery GIS Engine]
+    Worker <--> PostgreSQL
+```
+
+### 🛰️ GIS Processing Pipeline
+```mermaid
+sequenceDiagram
+    participant User
+    participant React as Frontend
+    participant Fast as API
+    participant Celery as Worker
+    participant GIS as GDAL/GeoPandas
+    
+    User->>React: Upload Drone Images
+    React->>Fast: multipart/form-data
+    Fast->>Celery: Queue Processing Job (Redis)
+    Celery->>GIS: Generate Orthomosaics
+    GIS->>GIS: Detect Canopy (AI/Computer Vision)
+    GIS->>Fast: Notify Job Completion
+    Fast->>React: Update UI (WebSockets)
+    React->>User: Interactive Map Rendered
+```
+
+---
+
 ## 🏗️ Tech Stack
 
 ### Frontend
@@ -95,9 +134,52 @@ docker-compose up --build
 
 ---
 
+## 🛠️ Alternative Setup (Local / Non-Docker)
+
+For development without Docker, follow these steps manually.
+
+### 1. Backend (FastAPI)
+Requires Python 3.12, PostgreSQL/PostGIS, and Redis.
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.demo .env          # Update with your local DB credentials
+uvicorn app.main:app --reload
+```
+
+### 2. Frontend (Vite)
+Requires Node.js 20+.
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+---
+
 ## ⚙️ Environment Configuration
 
-Both Frontend and Backend use `.env` files for configuration.
+Both Frontend and Backend use `.env` files for configuration. For local development, you can use the following template:
+
+### `.env.demo` Template
+```bash
+# ── DB Configuration (PostGIS) ────────────────────────────────────────────────
+# For local setup, ensure you include PostgreSQL 16 + PostGIS
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/odm
+
+# ── Redis Configuration (Celery) ──────────────────────────────────────────────
+REDIS_URL=redis://localhost:6379/0
+
+# ── Security & Authentication ────────────────────────────────────────────────
+SECRET_KEY=lansub_odm_secret_key_8821
+
+# ── Frontend Configuration (Vite) ────────────────────────────────────────────
+VITE_API_BASE_URL=http://localhost:8000
+```
 
 ### Backend (`/backend/.env`)
 | Variable | Description | Default |
@@ -123,6 +205,23 @@ The `worker` service should be scaled horizontally if processing high volumes of
 
 ## 🎨 UI Philosophy (Green Glassmorphism)
 Our design system focuses on **Depth**, **Transparency**, and **Vibrant Emerald Tones**. All components utilize the `.glass` and `.glass-card` classes defined in `globals.css` to create a harmonious blend between the heavy map data and the UI controls.
+
+
+
+---
+
+## 🤝 Contribution & Authors
+
+We welcome contributions from the community to enhance the ODM platform.
+
+**Authors:**
+- **Jai** - [jai@lansub.com](mailto:jai@lansub.com)
+- **Arish** - [arish@lansub.com](mailto:arish@lansub.com)
+
+**Contact:**
+📍 **Lansub Technologies Chennai**  
+🌐 [lansub.com](https://lansub.com)  
+📧 [info@lansub.com](mailto:info@lansub.com)
 
 <div align="center">
   <sub>Developed by <b>LanSub Intelligence</b>. Proprietary GIS Software.</sub>
