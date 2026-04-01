@@ -57,13 +57,13 @@ export default function AppShell({
             <div
               className="w-7 h-7 rounded-lg bg-white/10 border border-white/20 backdrop-blur-md flex-shrink-0"
               style={{
-                backgroundImage: 'url(/logo.png)',
-                backgroundSize: '75%',
+                backgroundImage: 'url(/logo1.png)',
+                backgroundSize: '100%',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
               }}
             />
-            <span className="font-bold text-snow text-xs tracking-widest uppercase">Open Drone Map</span>
+            <span className="font-bold text-snow text-sm tracking-widest uppercase">Lansub</span>
           </div>
         </div>
 
