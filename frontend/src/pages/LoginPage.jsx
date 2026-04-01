@@ -60,12 +60,12 @@ export default function LoginPage() {
               className="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md shadow-2xl flex-shrink-0"
               style={{
                 backgroundImage: 'url(/logo.png)',
-                backgroundSize: '80%',
+                backgroundSize: '100%',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
               }}
             />
-            <span className="text-white text-3xl font-black tracking-[0.2em] uppercase">ODM</span>
+            <span className="text-white text-3xl font-black tracking-[0.2em] uppercase">Lansub</span>
           </div>
 
           <h1 className="text-white text-4xl font-black leading-tight mb-4">
@@ -114,13 +114,13 @@ export default function LoginPage() {
             <div
               className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex-shrink-0 backdrop-blur-md shadow-lg"
               style={{
-                backgroundImage: 'url(/logo.png)',
-                backgroundSize: '75%',
+                backgroundImage: 'url(/logo1.png)',
+                backgroundSize: '100%',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
               }}
             />
-            <span className="text-snow text-xl uppercase tracking-widest font-black">ODM</span>
+            <span className="text-snow text-xl uppercase tracking-widest font-black">Lansub</span>
           </div>
 
           {/* Heading */}
@@ -208,15 +208,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Demo creds */}
-          <div className="mt-8 p-3.5 rounded-xl"
-               style={{ background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.18)' }}>
-            <p className="text-muted text-[10px] font-bold uppercase tracking-wider mb-2">Demo Access</p>
-            <div className="space-y-0.5">
-              <p className="text-subtle text-xs">Admin: <span className="font-mono text-snow font-bold">admin / admin123</span></p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

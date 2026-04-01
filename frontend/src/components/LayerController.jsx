@@ -119,13 +119,7 @@ export default function LayerController({ layers, setLayers }) {
             </div>
           </div>
 
-          {/* Footer */}
-          <p
-            className="text-[9px] text-muted leading-relaxed pt-3"
-            style={{ borderTop: '1px solid rgba(34,197,94,0.12)' }}
-          >
-            Drone data processed with GDAL · Spatial analysis via PostGIS
-          </p>
+         
         </div>
       )}
     </div>

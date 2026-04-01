@@ -96,12 +96,12 @@ function SidebarContent({
               className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md flex-shrink-0 shadow-lg"
               style={{
                 backgroundImage: 'url(/logo.png)',
-                backgroundSize: '80%',
+                backgroundSize: '100%',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
               }}
             />
-            <span className="font-extrabold text-white text-[15px] tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden">Open Drone Map</span>
+            <span className="font-extrabold text-white text-[20px] tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden">lansub</span>
           </button>
         ) : (
           <button
