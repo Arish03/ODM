@@ -139,10 +139,7 @@ export default function AdminDashboard() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
           <div className="space-y-1">
             <div className="flex items-center gap-2.5 mb-2">
-              <span className="flex h-2.5 w-2.5 relative flex-shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
-              </span>
+
               <p className="text-primary text-[10px] uppercase tracking-widest font-black">Systems Operational</p>
             </div>
             <h1 className="text-snow text-2xl sm:text-3xl font-black tracking-tight">{greeting}, Admin</h1>
@@ -248,8 +245,7 @@ export default function AdminDashboard() {
                           className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold"
                           style={{ background: theme.badgeBg, border: `1px solid ${theme.badgeBorder}`, color: theme.textColor }}
                         >
-                          {theme.ping && <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping" />}
-                          {!theme.ping && <span className="w-1.5 h-1.5 rounded-full bg-current" />}
+                          <span className="w-1.5 h-1.5 rounded-full bg-current" />
                           {theme.label}
                         </span>
                       </div>
@@ -332,7 +328,7 @@ export default function AdminDashboard() {
                       )}
                       <div
                         className="absolute left-0 top-1.5 w-3 h-3 rounded-full"
-                        style={{ background: theme.topBar, boxShadow: `0 0 8px ${theme.topBar}80` }}
+                        style={{ background: theme.topBar }}
                       />
                       <p className="text-snow text-sm font-bold mb-0.5">{p.name}</p>
                       <p className="text-muted text-xs">
