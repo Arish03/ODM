@@ -29,10 +29,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: '#f8fafc' }}>
-      {/* Aurora orbs */}
-      <div className="aurora-orb-1" />
-      <div className="aurora-orb-2" />
-      <div className="aurora-orb-3" />
+
 
       {/* ── Left panel — decorative ──────────────────────── */}
       <div className="hidden lg:flex flex-col flex-1 relative overflow-hidden sidebar-forest">
@@ -42,15 +39,7 @@ export default function LoginPage() {
         <div className="absolute bottom-[-10%] right-[-10%] w-[300px] h-[300px] rounded-full blur-[100px]"
              style={{ background: 'rgba(134,239,172,0.20)' }} />
 
-        {/* Agri-Tech dot mesh */}
-        <div
-          className="absolute inset-0 opacity-[0.08]"
-          style={{
-            backgroundImage: 'radial-gradient(#86efac 1.5px, transparent 1.5px), radial-gradient(#86efac 1.5px, transparent 1.5px)',
-            backgroundSize: '40px 40px',
-            backgroundPosition: '0 0, 20px 20px',
-          }}
-        />
+
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-center h-full px-16">
