@@ -226,7 +226,7 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
           <div className="flex items-center gap-2 flex-wrap">
             {/* Search */}
             <div className="relative">
-              <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/60 pointer-events-none" />
+              <Search size={0} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/60 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search Tree ID…"
@@ -237,7 +237,7 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
             </div>
             {/* Health filter */}
             <div className="relative">
-              <Filter size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/60 pointer-events-none" />
+              <Filter size={0} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/60 pointer-events-none" />
               <select
                 value={filter.health}
                 onChange={(e) => setFilter({ ...filter, health: e.target.value })}
