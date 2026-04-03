@@ -226,22 +226,22 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
           <div className="flex items-center gap-2 flex-wrap">
             {/* Search */}
             <div className="relative">
-              <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
+              <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/60 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search Tree ID…"
                 value={filter.search}
                 onChange={(e) => setFilter({ ...filter, search: e.target.value })}
-                className="input-base pl-8 pr-3 py-2 w-36 rounded-lg text-xs"
+                className="input-base pl-10 pr-3 py-2 w-44 rounded-xl text-xs"
               />
             </div>
             {/* Health filter */}
             <div className="relative">
-              <Filter size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
+              <Filter size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/60 pointer-events-none" />
               <select
                 value={filter.health}
                 onChange={(e) => setFilter({ ...filter, health: e.target.value })}
-                className="input-base pl-8 pr-6 py-2 rounded-lg text-xs appearance-none cursor-pointer"
+                className="input-base pl-10 pr-8 py-2 rounded-xl text-xs appearance-none cursor-pointer"
               >
                 <option value="">All Health</option>
                 <option value="Healthy">Healthy</option>
@@ -250,7 +250,7 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
               </select>
             </div>
             <span
-              className="text-xs font-bold px-2.5 py-1 rounded-full"
+              className="text-xs font-bold px-3 py-1.5 rounded-full"
               style={{ background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.22)', color: '#16a34a' }}
             >
               {filteredTrees.length} / {trees.length}
