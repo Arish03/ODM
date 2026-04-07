@@ -7,6 +7,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.database import engine, Base
 from app.config import get_settings
+from fastapi.responses import FileResponse, Response
 from app.routers import auth, users, projects, trees, upload
 
 settings = get_settings()
@@ -76,12 +77,19 @@ app.include_router(projects.router)
 app.include_router(trees.router)
 app.include_router(upload.router)
 
-# Serve generated tiles as static files
+# Serve generated tiles — return 204 for missing tiles so MapLibre shows nothing
 tiles_dir = settings.TILES_DIR
 os.makedirs(tiles_dir, exist_ok=True)
-app.mount("/tiles", StaticFiles(directory=tiles_dir), name="tiles")
+
+
+@app.get("/tiles/{project_id}/{layer}/{z}/{x}/{y}.png")
+async def serve_tile(project_id: str, layer: str, z: int, x: int, y: int):
+    tile_path = os.path.join(tiles_dir, project_id, layer, str(z), str(x), f"{y}.png")
+    if os.path.isfile(tile_path):
+        return FileResponse(tile_path, media_type="image/png", headers={"Cache-Control": "public, max-age=86400"})
+    return Response(status_code=204, headers={"Cache-Control": "public, max-age=3600"})
 
 
 @app.get("/api/health")
 def health_check():
-    return {"status": "ok", "service": "plantation-api"}
+    return {"status": "ok", "service": "plantation-api"}

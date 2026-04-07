@@ -19,13 +19,18 @@ export default function MapView({ project }) {
     const boundary = project.boundary_geojson ? JSON.parse(project.boundary_geojson) : null;
     let center = [0, 0];
     let zoom = 2;
+    let bounds = null;
 
     if (boundary?.features?.length > 0) {
       const coords = boundary.features[0].geometry.coordinates[0];
       const lngs = coords.map((c) => c[0]);
       const lats = coords.map((c) => c[1]);
       center = [(Math.min(...lngs) + Math.max(...lngs)) / 2, (Math.min(...lats) + Math.max(...lats)) / 2];
-      zoom = 15;
+      bounds = [
+        [Math.min(...lngs), Math.min(...lats)],
+        [Math.max(...lngs), Math.max(...lats)],
+      ];
+      zoom = 18;
     }
 
     map.current = new maplibregl.Map({
@@ -44,7 +49,12 @@ export default function MapView({ project }) {
 
     map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
 
-    map.current.on('load', () => { setupSourcesAndLayers(); });
+    map.current.on('load', () => {
+      if (bounds) {
+        map.current.fitBounds(bounds, { padding: 40, maxZoom: 20 });
+      }
+      setupSourcesAndLayers();
+    });
 
     return () => { if (map.current) { map.current.remove(); map.current = null; } };
   }, [project?.id]);
@@ -202,7 +212,7 @@ export default function MapView({ project }) {
 
   return (
     <div className="relative w-full" style={{ height: 'calc(100vh - 56px)' }}>
-      {/* Aurora orbs behind map (optional, but subtle) */}
+      {/* Aurora orbs behind map */}
       <div className="aurora-orb-2 opacity-50" style={{ left: '20%' }} />
 
       {/* Map canvas */}

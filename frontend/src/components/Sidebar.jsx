@@ -96,12 +96,20 @@ function SidebarContent({
               className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md flex-shrink-0 shadow-lg"
               style={{
                 backgroundImage: 'url(/logo.png)',
+<<<<<<< HEAD
                 backgroundSize: '100%',
+=======
+                backgroundSize: '80%',
+>>>>>>> azure/main
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
               }}
             />
+<<<<<<< HEAD
             <span className="font-extrabold text-white text-[20px] tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden">lansub</span>
+=======
+            <span className="font-extrabold text-white text-[15px] tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden">Open Drone Map</span>
+>>>>>>> azure/main
           </button>
         ) : (
           <button
@@ -179,6 +187,43 @@ function SidebarContent({
           </div>
         )}
 
+<<<<<<< HEAD
+=======
+        {/* Admin: Project viewer (Map + Analytics) when navigated from dashboard */}
+        {isAdmin && projects && projects.length > 0 && onViewChange && (
+          <div className="space-y-1">
+            <div className={`mt-2 mb-1 ${collapsed && !isMobile ? 'px-0' : 'px-1'}`}>
+              <div className="h-px bg-white/15 mb-3" />
+              {(!collapsed || isMobile) && (
+                <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mb-2">Project Viewer</p>
+              )}
+            </div>
+
+            {/* Project selector */}
+            {(!collapsed || isMobile) && (
+              <div className="mb-3">
+                <div className="relative">
+                  <select
+                    value={selectedProjectId || ''}
+                    onChange={(e) => onProjectChange?.(e.target.value)}
+                    className="w-full bg-white/15 border border-white/20 text-white text-xs rounded-xl py-2 pl-3 pr-7
+                      appearance-none cursor-pointer focus:outline-none focus:border-white/40 backdrop-blur-sm"
+                  >
+                    {projects.map((p) => (
+                      <option key={p.id} value={p.id} className="bg-navy text-white">{p.name}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/60 pointer-events-none" />
+                </div>
+              </div>
+            )}
+
+            <ViewButton view="map"       icon={Map}      label="Map View"   />
+            <ViewButton view="analytics" icon={BarChart3} label="Analytics" />
+          </div>
+        )}
+
+>>>>>>> azure/main
         {/* Global links */}
         <div className="pt-4 border-t border-white/10 space-y-1">
           <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-4">Resources</p>

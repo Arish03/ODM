@@ -23,7 +23,14 @@ export default function AppShell({
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: '#f8fafc' }}>
+<<<<<<< HEAD
 
+=======
+      {/* Aurora orbs – rendered once behind everything */}
+      <div className="aurora-orb-1" />
+      <div className="aurora-orb-2" />
+      <div className="aurora-orb-3" />
+>>>>>>> azure/main
 
       {/* Sidebar */}
       <Sidebar
@@ -54,18 +61,32 @@ export default function AppShell({
             <div
               className="w-7 h-7 rounded-lg bg-white/10 border border-white/20 backdrop-blur-md flex-shrink-0"
               style={{
+<<<<<<< HEAD
                 backgroundImage: 'url(/logo1.png)',
                 backgroundSize: '100%',
+=======
+                backgroundImage: 'url(/logo.png)',
+                backgroundSize: '75%',
+>>>>>>> azure/main
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
               }}
             />
+<<<<<<< HEAD
             <span className="font-bold text-snow text-sm tracking-widest uppercase">Lansub</span>
           </div>
         </div>
 
         {/* Scrollable page content */}
         <main className="flex-1 overflow-y-auto relative">
+=======
+            <span className="font-bold text-snow text-xs tracking-widest uppercase">Open Drone Map</span>
+          </div>
+        </div>
+
+        {/* Page content */}
+        <main className="flex-1 relative overflow-auto">
+>>>>>>> azure/main
           {children}
         </main>
       </div>
