@@ -93,13 +93,6 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
   const [analytics, setAnalytics] = useState(null);
   const [trees, setTrees]         = useState([]);
   const [loading, setLoading]     = useState(true);
-<<<<<<< HEAD
-  const [filter, setFilter]       = useState({ health: '', search: '' });
-
-  useEffect(() => {
-    if (!project) return;
-    setLoading(true);
-=======
   const [error, setError]         = useState(null);
   const [filter, setFilter]       = useState({ health: '', search: '' });
 
@@ -107,16 +100,12 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
     if (!project) return;
     setLoading(true);
     setError(null);
->>>>>>> azure/main
     Promise.all([
       api.get(`/projects/${project.id}/analytics`),
       api.get(`/projects/${project.id}/trees/list`),
     ]).then(([statsRes, listRes]) => {
       setAnalytics(statsRes.data);
       setTrees(listRes.data);
-<<<<<<< HEAD
-    }).catch(console.error).finally(() => setLoading(false));
-=======
     }).catch((err) => {
       console.error('Analytics fetch error:', err);
       setError(err?.response?.data?.detail || 'Failed to load analytics data.');
@@ -125,7 +114,6 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
 
   useEffect(() => {
     fetchData();
->>>>>>> azure/main
   }, [project?.id]);
 
   const filteredTrees = trees.filter((t) => {
@@ -143,9 +131,6 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
   }
 
   if (!analytics) {
-<<<<<<< HEAD
-    return <div className="flex items-center justify-center py-24 text-muted text-sm">Failed to load analytics data.</div>;
-=======
     return (
       <div className="flex flex-col items-center justify-center py-24 gap-4">
         <p className="text-muted text-sm">{error || 'Failed to load analytics data.'}</p>
@@ -158,7 +143,6 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
         </button>
       </div>
     );
->>>>>>> azure/main
   }
 
   const healthData = [
@@ -279,11 +263,7 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
           <table className="w-full text-sm">
             <thead className="sticky top-0 z-10">
               <tr style={{ borderBottom: '1px solid rgba(34,197,94,0.15)', background: 'rgba(240,253,244,0.85)', backdropFilter: 'blur(12px)' }}>
-<<<<<<< HEAD
                 {['Tree ID', 'Batch Group', 'Height (m)', 'Health', 'Coordinates', 'Action'].map((h) => (
-=======
-                {['Tree ID', 'Height (m)', 'Health', 'Coordinates', 'Action'].map((h) => (
->>>>>>> azure/main
                   <th key={h} className="px-4 py-3 text-left text-[10px] font-bold text-muted uppercase tracking-wider whitespace-nowrap">
                     {h}
                   </th>
@@ -291,8 +271,7 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
               </tr>
             </thead>
             <tbody>
-<<<<<<< HEAD
-              {filteredTrees.map((tree) => {
+              {filteredTrees.slice(0, 100).map((tree) => {
                 const batchLower = Math.floor((tree.tree_index - 1) / 100) * 100 + 1;
                 const batchUpper = (Math.floor((tree.tree_index - 1) / 100) + 1) * 100;
                 return (
@@ -324,43 +303,13 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
                   </tr>
                 );
               })}
-
-=======
-              {filteredTrees.slice(0, 100).map((tree) => (
-                <tr
-                  key={tree.id}
-                  className="transition-colors"
-                  style={{ borderBottom: '1px solid rgba(34,197,94,0.08)' }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(34,197,94,0.04)'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                >
-                  <td className="px-4 py-3 font-bold text-primary">#{tree.tree_index}</td>
-                  <td className="px-4 py-3 text-snow">{tree.height_m}m</td>
-                  <td className="px-4 py-3"><HealthBadge status={tree.health_status} /></td>
-                  <td className="px-4 py-3 font-mono text-muted text-[11px]">
-                    {tree.latitude?.toFixed(6)}, {tree.longitude?.toFixed(6)}
-                  </td>
-                  <td className="px-4 py-3">
-                    <button
-                      onClick={() => onLocateOnMap(tree)}
-                      className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all"
-                      style={{ border: '1px solid rgba(34,197,94,0.25)', color: '#16a34a' }}
-                      onMouseEnter={e => { e.currentTarget.style.background = 'rgba(34,197,94,0.10)'; }}
-                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-                    >
-                      <MapPin size={11} />Locate
-                    </button>
-                  </td>
-                </tr>
-              ))}
               {filteredTrees.length > 100 && (
                 <tr>
-                  <td colSpan={5} className="py-4 text-center text-muted text-xs">
+                  <td colSpan={6} className="py-4 text-center text-muted text-xs">
                     Showing first 100 of {filteredTrees.length}. Use filters to narrow results.
                   </td>
                 </tr>
               )}
->>>>>>> azure/main
               {filteredTrees.length === 0 && (
                 <tr>
                   <td colSpan={5} className="py-12 text-center text-muted text-sm">No trees match your filters.</td>

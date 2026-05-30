@@ -16,20 +16,11 @@ client.interceptors.request.use((config) => {
   return config;
 });
 
-<<<<<<< HEAD
-// Handle 401
-=======
 // Handle 401 – only redirect for non-login requests when on a different page
->>>>>>> azure/main
 client.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-<<<<<<< HEAD
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
-=======
       const url = error.config?.url || '';
       // Don't redirect if this was already a login attempt
       if (!url.includes('/auth/login')) {
@@ -40,7 +31,6 @@ client.interceptors.response.use(
           window.location.href = '/login';
         }
       }
->>>>>>> azure/main
     }
     return Promise.reject(error);
   }

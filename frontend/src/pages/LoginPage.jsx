@@ -203,7 +203,7 @@ export default function LoginPage() {
                style={{ background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.18)' }}>
             <p className="text-muted text-[10px] font-bold uppercase tracking-wider mb-2">Demo Access</p>
             <div className="space-y-0.5">
-              <p className="text-subtle text-xs">Admin: <span className="font-mono text-snow font-bold">admin / admin123</span></p>
+              <p className="text-subtle text-xs">Client: <span className="font-mono text-snow font-bold">Demo / Demo123</span></p>
             </div>
           </div>
         </div>

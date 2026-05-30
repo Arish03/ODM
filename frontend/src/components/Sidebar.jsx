@@ -96,20 +96,12 @@ function SidebarContent({
               className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md flex-shrink-0 shadow-lg"
               style={{
                 backgroundImage: 'url(/logo.png)',
-<<<<<<< HEAD
                 backgroundSize: '100%',
-=======
-                backgroundSize: '80%',
->>>>>>> azure/main
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
               }}
             />
-<<<<<<< HEAD
             <span className="font-extrabold text-white text-[20px] tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden">lansub</span>
-=======
-            <span className="font-extrabold text-white text-[15px] tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden">Open Drone Map</span>
->>>>>>> azure/main
           </button>
         ) : (
           <button
@@ -187,8 +179,6 @@ function SidebarContent({
           </div>
         )}
 
-<<<<<<< HEAD
-=======
         {/* Admin: Project viewer (Map + Analytics) when navigated from dashboard */}
         {isAdmin && projects && projects.length > 0 && onViewChange && (
           <div className="space-y-1">
@@ -222,8 +212,6 @@ function SidebarContent({
             <ViewButton view="analytics" icon={BarChart3} label="Analytics" />
           </div>
         )}
-
->>>>>>> azure/main
         {/* Global links */}
         <div className="pt-4 border-t border-white/10 space-y-1">
           <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-4">Resources</p>

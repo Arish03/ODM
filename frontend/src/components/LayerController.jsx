@@ -119,9 +119,6 @@ export default function LayerController({ layers, setLayers }) {
             </div>
           </div>
 
-<<<<<<< HEAD
-         
-=======
           {/* Footer */}
           <p
             className="text-[9px] text-muted leading-relaxed pt-3"
@@ -129,7 +126,6 @@ export default function LayerController({ layers, setLayers }) {
           >
             Drone data processed with GDAL · Spatial analysis via PostGIS
           </p>
->>>>>>> azure/main
         </div>
       )}
     </div>

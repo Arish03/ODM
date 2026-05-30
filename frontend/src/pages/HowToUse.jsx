@@ -130,11 +130,7 @@ export default function HowToUse() {
         </div>
         <div className="w-full md:w-1/3 flex items-center justify-center">
           <div className="w-32 h-32 rounded-full flex items-center justify-center bg-white/5 border border-white/10 relative">
-<<<<<<< HEAD
-
-=======
             <div className="absolute inset-0 rounded-full animate-ping bg-primary/20" />
->>>>>>> azure/main
             <Play size={40} className="text-white fill-white" />
           </div>
         </div>
