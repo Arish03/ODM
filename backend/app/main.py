@@ -4,10 +4,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, Response
 
 from app.database import engine, Base
 from app.config import get_settings
+from fastapi.responses import FileResponse, Response
 from app.routers import auth, users, projects, trees, upload
 
 settings = get_settings()

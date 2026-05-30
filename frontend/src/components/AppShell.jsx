@@ -23,7 +23,10 @@ export default function AppShell({
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: '#f8fafc' }}>
-
+      {/* Aurora orbs – rendered once behind everything */}
+      <div className="aurora-orb-1" />
+      <div className="aurora-orb-2" />
+      <div className="aurora-orb-3" />
 
       {/* Sidebar */}
       <Sidebar
@@ -60,7 +63,7 @@ export default function AppShell({
                 backgroundRepeat: 'no-repeat'
               }}
             />
-            <span className="font-bold text-snow text-sm tracking-widest uppercase">Lansub</span>
+            <span className="font-bold text-snow text-xs tracking-widest uppercase">Open Drone Map</span>
           </div>
         </div>
 

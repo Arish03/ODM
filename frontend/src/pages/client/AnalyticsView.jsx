@@ -271,7 +271,7 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
               </tr>
             </thead>
             <tbody>
-              {filteredTrees.map((tree) => {
+              {filteredTrees.slice(0, 100).map((tree) => {
                 const batchLower = Math.floor((tree.tree_index - 1) / 100) * 100 + 1;
                 const batchUpper = (Math.floor((tree.tree_index - 1) / 100) + 1) * 100;
                 return (
@@ -303,7 +303,13 @@ export default function AnalyticsView({ project, onLocateOnMap }) {
                   </tr>
                 );
               })}
-
+              {filteredTrees.length > 100 && (
+                <tr>
+                  <td colSpan={6} className="py-4 text-center text-muted text-xs">
+                    Showing first 100 of {filteredTrees.length}. Use filters to narrow results.
+                  </td>
+                </tr>
+              )}
               {filteredTrees.length === 0 && (
                 <tr>
                   <td colSpan={5} className="py-12 text-center text-muted text-sm">No trees match your filters.</td>

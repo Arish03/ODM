@@ -53,7 +53,12 @@ export default function MapView({ project }) {
 
     map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
 
-    map.current.on('load', () => { setupSourcesAndLayers(); });
+    map.current.on('load', () => {
+      if (bounds) {
+        map.current.fitBounds(bounds, { padding: 40, maxZoom: 20 });
+      }
+      setupSourcesAndLayers();
+    });
 
     return () => { if (map.current) { map.current.remove(); map.current = null; } };
   }, [project?.id]);
@@ -210,7 +215,10 @@ export default function MapView({ project }) {
   }, [layers.overlays]);
 
   return (
-    <div className="absolute inset-0">
+    <div className="relative w-full" style={{ height: 'calc(100vh - 56px)' }}>
+      {/* Aurora orbs behind map */}
+      <div className="aurora-orb-2 opacity-50" style={{ left: '20%' }} />
+
       {/* Map canvas */}
       <div ref={mapContainer} className="w-full h-full" />
 
