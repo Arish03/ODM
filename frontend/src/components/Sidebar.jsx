@@ -212,6 +212,8 @@ function SidebarContent({
             <ViewButton view="analytics" icon={BarChart3} label="Analytics" />
           </div>
         )}
+
+
         {/* Global links */}
         <div className="pt-4 border-t border-white/10 space-y-1">
           <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-4">Resources</p>

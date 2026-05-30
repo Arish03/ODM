@@ -47,6 +47,10 @@ export default function MapView({ project }) {
       antialias: true,
     });
 
+    if (bounds) {
+      map.current.fitBounds(bounds, { padding: 40, maxZoom: 20 });
+    }
+
     map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
 
     map.current.on('load', () => {
@@ -216,7 +220,7 @@ export default function MapView({ project }) {
       <div className="aurora-orb-2 opacity-50" style={{ left: '20%' }} />
 
       {/* Map canvas */}
-      <div ref={mapContainer} className="absolute inset-0" />
+      <div ref={mapContainer} className="w-full h-full" />
 
       {/* Layer controller */}
       <LayerController layers={layers} setLayers={setLayers} />

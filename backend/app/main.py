@@ -92,4 +92,4 @@ async def serve_tile(project_id: str, layer: str, z: int, x: int, y: int):
 
 @app.get("/api/health")
 def health_check():
-    return {"status": "ok", "service": "plantation-api"}
+    return {"status": "ok", "service": "plantation-api"}
